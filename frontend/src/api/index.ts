@@ -1,4 +1,7 @@
 import axios from "axios";
+
+const API_BASE = import.meta.env.VITE_API_BASE_URL;
+
 // =======================
 // Types
 // =======================
@@ -32,35 +35,31 @@ export type UpdateOrderPayload = {
   id: string;
   status: "Pending" | "Completed";
 };
+
 // =======================
 // API Calls
 // =======================
+
 // Get all fruits
 export const getFruits = async (): Promise<Fruit[]> => {
-  const response = await axios.get(`http://localhost:3000/api/fruits`);
+  const response = await axios.get(`${API_BASE}/fruits`);
   return response.data;
 };
 
 // Submit a customer order (checkout)
 export const submitOrder = async (payload: OrderPayload): Promise<Order> => {
-  const response = await axios.post(
-    "http://localhost:3000/api/orders",
-    payload
-  );
+  const response = await axios.post(`${API_BASE}/orders`, payload);
   return response.data;
 };
 
 // Get all orders (for store owner)
 export const getOrders = async (): Promise<Order[]> => {
-  const response = await axios.get("http://localhost:3000/api/orders");
+  const response = await axios.get(`${API_BASE}/orders`);
   return response.data;
 };
 
-// Update order status
+// Update order status (for store owner)
 export const updateOrderStatus = async (payload: UpdateOrderPayload) => {
-  const { data } = await axios.patch(
-    `http://localhost:3000/api/orders/status`,
-    payload
-  );
+  const { data } = await axios.patch(`${API_BASE}/orders/status`, payload);
   return data;
 };
