@@ -12,41 +12,48 @@ It has two user personas: **Customer** and **Store Owner**.
 
 ## User Stories & Progress
 
-| #   | User Story                                                                                                                                                                                         | Status      | Priority  --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | -------- | ----------------------------------------------------------------------------------------- | -------- |
-| 1   | **As a customer, I want to see a list of fruits that are available to buy (complete with stock and pricing information), so that I can decide which fruits I want to buy.**                        | Completed   | High      ☑️       |
-| 2   | **As a customer, I want to keep track of the fruits and quantity that I have shortlisted (including the total amount I need to pay), so that I can adjust my purchasing decisions as I shop.**     | In Progress | High      ☑️       |
-| 3   | **As a customer, I want to submit my order of the fruits I selected, so that I can complete my purchase when I am done shopping. Assume that payment is done separate from this POS application.** | In Progress | High     ☑️       |
-| 4   | **As an owner, I want to see the orders that my customers have submitted, so that I can fulfill their orders.**                                                                                    | Pending     | Medium    ☑️      |
+| # | User Story                                                                                                                          | Status         | Priority  |
+| - | ----------------------------------------------------------------------------------------------------------------------------------- | -------------- | --------- |
+| 1 | As a **customer**, I want to see a list of fruits (with stock and price) so that I can decide what to buy.                          | ✅ Completed    | 🔴 High   |
+| 2 | As a **customer**, I want to track fruits & quantities in my cart (with total cost), so that I can adjust my purchase.              | ✅ In Progress | 🔴 High   |
+| 3 | As a **customer**, I want to submit my fruit order so that I can complete my purchase. (Payment is assumed to be outside this app.) | ✅ In Progress | 🔴 High   |
+| 4 | As an **owner**, I want to see submitted customer orders so that I can fulfill them.                                                | ✅ Pending      | 🔴 High  |
+
 
 **Progress Key:**
 
-- ☑️ Completed
-- 🔲 In Progress
-- ⬜ Pending
+✅ Completed
+🟡 In Progress
+⬜ Pending
 
 ---
 
 ## Project Structure
 pos-fruits/
-├─ backend/ # Node.js + Express + Prisma + SQLite
-│ ├─ src/
-│ │ └─ index.ts
-│ ├─ prisma/
-│ │ ├─ schema.prisma
-│ │ └─ seed.ts
-│ ├─ package.json
-│ └─ tsconfig.json
-├─ frontend/ # React + Vite + MUI + React Query
-│ ├─ src/
-│ │ ├─ pages/
-│ │ │ ├─ Shop.tsx
-│ │ │ └─ Checkout.tsx
-│ │ ├─ context/
-│ │ │ └─ CartContext.tsx
-│ │ └─ App.tsx
-│ ├─ package.json
-│ └─ tsconfig.json
+├─ backend/                     # Node.js + Express + Prisma + SQLite
+│  ├─ src/
+│  │  └─ index.ts
+│  ├─ prisma/
+│  │  ├─ schema.prisma
+│  │  └─ seed.ts
+│  ├─ package.json
+│  └─ tsconfig.json
+│
+├─ frontend/                    # React + Vite + MUI + React Query
+│  ├─ src/
+│  │  ├─ pages/
+│  │  │  ├─ Shop.tsx
+│  │  │  ├─ Success.tsx
+│  │  │  ├─ Checkout.tsx
+│  │  │  └─ Manage.tsx
+│  │  ├─ context/
+│  │  │  └─ CartContext.tsx
+│  │  └─ App.tsx
+│  ├─ package.json
+│  └─ tsconfig.json
+│
 └─ README.md
+
 ---
 
 ## Installation & Running
@@ -73,11 +80,13 @@ npm run dev                         # start frontend on http://localhost:5173 (d
 | POST   | /api/checkout | Submit a customer order   |
 
 ## Pages
-| Url | Description |
-| default | Customer view for available fruits |
-| /checkout | Customer view cart |
-| /success | Customer view of a successful order |
-| /manage | Owner view to complete orders and view past orders |
+| URL         | Description                                        |
+| ----------- | -------------------------------------------------- |
+| `/`         | Customer view of all available fruits              |
+| `/checkout` | Customer checkout page with cart                   |
+| `/success`  | Confirmation page after successful checkout        |
+| `/manage`   | Owner’s dashboard to view & manage customer orders |
+
 
 
 ```
