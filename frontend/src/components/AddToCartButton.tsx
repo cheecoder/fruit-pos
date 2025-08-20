@@ -1,0 +1,48 @@
+import { Button, Box, Typography, IconButton } from "@mui/material";
+import { useCart } from "../context/CartContext";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+
+type CartButtonProps = {
+  itemId: string;
+  name: string;
+  priceCents: number;
+};
+
+export function AddToCartButton({ itemId, name, priceCents }: CartButtonProps) {
+  const { cart, addItem, removeItem } = useCart();
+
+  // Find the quantity of this item in cart
+  const cartItem = cart.find((i) => i.id === itemId);
+  const qty = cartItem?.qty || 0;
+
+  if (qty === 0) {
+    // Show "Add to Cart"
+    return (
+      <Button
+        variant="contained"
+        onClick={() => addItem({ id: itemId, name, priceCents, qty: 1 })}
+      >
+        Add to Cart
+      </Button>
+    );
+  }
+
+  // Show (- qty +) interface
+  return (
+    <Box display="flex" alignItems="center">
+      <IconButton size="small" onClick={() => removeItem(itemId)}>
+        <RemoveIcon />
+      </IconButton>
+
+      <Typography sx={{ mx: 1 }}>{qty}</Typography>
+
+      <IconButton
+        size="small"
+        onClick={() => addItem({ id: itemId, name, priceCents, qty: 1 })}
+      >
+        <AddIcon />
+      </IconButton>
+    </Box>
+  );
+}

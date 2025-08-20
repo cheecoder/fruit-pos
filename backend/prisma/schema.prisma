@@ -21,6 +21,7 @@ model Order {
   id         String      @id @default(cuid())
   createdAt  DateTime    @default(now())
   totalCents Int
+  status     String      @default("Pending") // "Pending", "Completed"
   items      OrderItem[]
 }
 

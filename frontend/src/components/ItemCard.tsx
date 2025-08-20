@@ -1,21 +1,29 @@
 import { Button, Card, CardContent, Typography } from "@mui/material";
+import { AddToCartButton } from "./AddToCartButton";
 
-type ItemCardProps = {
+type BaseItem = {
+  id: string;
   name: string;
   priceCents: number;
   stock: number;
 };
 
-export default function ItemCard({ name, priceCents, stock }: ItemCardProps) {
+type ItemCardProps = {
+  fruit: BaseItem;
+};
+
+export default function ItemCard({ fruit }: ItemCardProps) {
   return (
     <Card>
       <CardContent>
-        <Typography variant="h6">{name}</Typography>
-        <Typography>Price: ${(priceCents / 100).toFixed(2)}</Typography>
-        <Typography>Stock: {stock}</Typography>
-        <Button variant="contained" sx={{ mt: 1 }}>
-          Add to Cart
-        </Button>
+        <Typography variant="h6">{fruit.name}</Typography>
+        <Typography>Price: ${(fruit.priceCents / 100).toFixed(2)}</Typography>
+        <Typography>Stock: {fruit.stock}</Typography>
+        <AddToCartButton
+          itemId={fruit.id}
+          name={fruit.name}
+          priceCents={fruit.priceCents}
+        />
       </CardContent>
     </Card>
   );

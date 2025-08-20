@@ -1,4 +1,11 @@
-import { Grid, Card, CardContent, Typography, Button } from "@mui/material";
+import {
+  Grid,
+  Card,
+  CardContent,
+  Typography,
+  Button,
+  Box,
+} from "@mui/material";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 
@@ -21,17 +28,25 @@ export default function Shop() {
 
   if (isLoading) return <Typography>Loading fruits...</Typography>;
   if (error) return <Typography>Error loading fruits</Typography>;
+
   return (
-    <Grid container spacing={2} sx={{ mt: 2 }}>
-      {fruits?.map((fruit) => (
-        <Grid item xs={12} sm={6} key={fruit.id}>
-          <ItemCard
-            name={fruit.name}
-            priceCents={fruit.priceCents}
-            stock={fruit.stock}
-          />
-        </Grid>
-      ))}
-    </Grid>
+    <Box>
+      <Typography variant="h5" sx={{ mb: 2 }}>
+        Available Fruits
+      </Typography>
+      <Grid
+        container
+        spacing={2}
+        flexGrow={1}
+        alignContent={"center"}
+        alignItems={"center"}
+      >
+        {fruits?.map((fruit) => (
+          <Grid item xs={12} sm={6} key={fruit.id}>
+            <ItemCard fruit={fruit} />
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
   );
 }
