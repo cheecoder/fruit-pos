@@ -12,45 +12,31 @@ It has two user personas: **Customer** and **Store Owner**.
 
 ## User Stories & Progress
 
-| #   | User Story                                                                                                                                                                                         | Status      | Priority | Notes                                                                                     | Progress |
-| --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | -------- | ----------------------------------------------------------------------------------------- | -------- |
-| 1   | **As a customer, I want to see a list of fruits that are available to buy (complete with stock and pricing information), so that I can decide which fruits I want to buy.**                        | Completed   | High     | Uses React Query to fetch fruits and MUI Cards to display in 2×N grid.                    | ☑️       |
-| 2   | **As a customer, I want to keep track of the fruits and quantity that I have shortlisted (including the total amount I need to pay), so that I can adjust my purchasing decisions as I shop.**     | In Progress | High     | Cart implemented with React Context; AppBar shows total quantity.                         | 🔲       |
-| 3   | **As a customer, I want to submit my order of the fruits I selected, so that I can complete my purchase when I am done shopping. Assume that payment is done separate from this POS application.** | In Progress | High     | Checkout page displays cart and submits order to backend using React Query `useMutation`. | 🔲       |
-| 4   | **As an owner, I want to see the orders that my customers have submitted, so that I can fulfill their orders.**                                                                                    | Pending     | Medium   | Orders page lists all submitted orders; backend exposes `GET /api/orders`.                | ⬜       |
+| # | User Story                                                                                                                          | Status         | Priority  |
+| - | ----------------------------------------------------------------------------------------------------------------------------------- | -------------- | --------- |
+| 1 | As a **customer**, I want to see a list of fruits (with stock and price) so that I can decide what to buy.                          | ✅ Completed   | 🔴 High  |
+| 2 | As a **customer**, I want to track fruits & quantities in my cart (with total cost), so that I can adjust my purchase.              | ✅ Completed   | 🔴 High  |
+| 3 | As a **customer**, I want to submit my fruit order so that I can complete my purchase. (Payment is assumed to be outside this app.) | ✅ Completed   | 🔴 High  |
+| 4 | As an **owner**, I want to see submitted customer orders so that I can fulfill them.                                                | ✅ Completed   | 🔴 High  |
+| 5  | As an **owner**, I want to see the total sales for each day and for each fruit, so that I can track the performance of my store.                       | ⬜ Pending | 🟠 Medium   |
+| 6  | As an **owner**, I want to be able to add new fruits and amend my stock levels, so that I can keep my online store up to date.                         | ⬜ Pending | 🟠 Medium   |
+| 7  | As a **customer**, I want to be able to log in and see my order history, so that I can track my previous purchases.                                    | ⬜ Pending | 🟠 Medium   |
+| 8  | As a **customer**, I want to be able to re-order a previous order, so that I can quickly purchase the same items again.                                | ⬜ Pending | 🟡 Low      |
+| 9  | As a **customer**, I want to know how many people are currently considering buying a fruit, so that I can make a quick decision before stock runs out. | ⬜ Pending | 🟡 Low      |
+| 10 | As a **customer**, I want to be able to ask the store owner common questions about a fruit, so that I can make an informed decision.                   | ⬜ Pending | 🟡 Low      |
+| 11 | As a **customer**, I want to be able to use the app on my phone so I can shop on the go.                                                               | ⬜ Pending | 🟠 Medium   |
+| 12 | As a **customer**, I want my order shortlist to be saved so that I can continue shopping on my device later, even if I have not logged in.             | ⬜ Pending | 🟡 Low      |
+| 13 | As a **customer**, after logging in, I want my order shortlist to be saved so that I can log in and continue shopping on another device later.         | ⬜ Pending | 🟠 Medium   |
+| 14 | As an **owner**, I want to be able to serve millions of customers at the same time, so that I can scale my business.                                   | ⬜ Pending | 🟡 Low      |
+| 15 | As an **owner**, I do not want my customers to see the store’s order history or amend stocks, so that sensitive actions remain restricted to me.       | ⬜ Pending | 🟠 Medium   |
+| 16 | As an **owner**, I want my customers’ order submissions to be encrypted, so they cannot be intercepted by competitors.                                 | ⬜ Pending | 🟠 Medium   |
+| 17 | As a **customer**, I want the fruit store pages to load quickly at all times, so that I can browse and shop without delays.                            | ⬜ Pending | 🟠 Medium   |
 
 **Progress Key:**
 
-- ☑️ Completed
-- 🔲 In Progress
-- ⬜ Pending
-
----
-
-## Project Structure
-
-pos-fruits/
-├─ backend/ # Node.js + Express + Prisma + SQLite
-│ ├─ src/
-│ │ └─ index.ts
-│ ├─ prisma/
-│ │ ├─ schema.prisma
-│ │ └─ seed.ts
-│ ├─ package.json
-│ └─ tsconfig.json
-├─ frontend/ # React + Vite + MUI + React Query
-│ ├─ src/
-│ │ ├─ pages/
-│ │ │ ├─ Shop.tsx
-│ │ │ └─ Checkout.tsx
-│ │ ├─ context/
-│ │ │ └─ CartContext.tsx
-│ │ └─ App.tsx
-│ ├─ package.json
-│ └─ tsconfig.json
-└─ README.md
-
----
+✅ Completed
+🟡 In Progress
+⬜ Pending
 
 ## Installation & Running
 
@@ -62,11 +48,14 @@ npm install
 npx prisma migrate dev --name init   # create DB
 npx prisma db seed                  # populate initial fruits
 npm run start                       # start backend on http://localhost:3000
+```
 
 ### Frontend
+```bash
 cd frontend
 npm install
 npm run dev                         # start frontend on http://localhost:5173 (default)
+```
 
 ## API Endpoints
 | Method | Endpoint      | Description               |
@@ -75,5 +64,13 @@ npm run dev                         # start frontend on http://localhost:5173 (d
 | GET    | /api/orders   | List all submitted orders |
 | POST   | /api/checkout | Submit a customer order   |
 
+## Pages
+| URL         | Description                                        |
+| ----------- | -------------------------------------------------- |
+| `/`         | Customer view of all available fruits              |
+| `/checkout` | Customer checkout page with cart                   |
+| `/success`  | Confirmation page after successful checkout        |
+| `/manage`   | Owner’s dashboard to view & manage customer orders |
 
-```
+
+
