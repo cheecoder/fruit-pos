@@ -38,14 +38,23 @@ passport.use(
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
       callbackURL: "http://localhost:3000/auth/google/callback",
     },
-    (accessToken, refreshToken, profile, done) => {
+    (
+      accessToken: any,
+      refreshToken: any,
+      profile: any,
+      done: (arg0: null, arg1: any) => void
+    ) => {
       // just pass the profile
       done(null, profile);
     }
   )
 );
-passport.serializeUser((user: any, done) => done(null, user));
-passport.deserializeUser((user: any, done) => done(null, user));
+passport.serializeUser((user: any, done: (arg0: null, arg1: any) => any) =>
+  done(null, user)
+);
+passport.deserializeUser((user: any, done: (arg0: null, arg1: any) => any) =>
+  done(null, user)
+);
 
 app.get(
   "/auth/google",
