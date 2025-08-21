@@ -19,7 +19,7 @@ export default function App() {
     <>
       <AppBar position="static" sx={{ width: "100dvw" }}>
         <Toolbar sx={{ justifyContent: "space-between", px: "1rem" }}>
-          <Typography>Cheep Fruits</Typography>
+          <Typography>Chee-per Fruits</Typography>
           <Box>
             <IconButton color="inherit" component={RouterLink} to="/">
               <HomeIcon />
