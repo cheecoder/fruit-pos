@@ -4,6 +4,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { AddToCartButton } from "../components/AddToCartButton";
 import { getFruits, type Fruit } from "../api";
 import { useQuery } from "@tanstack/react-query";
+import { useAuth } from "../context/AuthContext";
+import { useEffect } from "react";
 
 export default function Checkout() {
   const { cart, removeItem, clearCart, totalPrice } = useCart();
@@ -13,7 +15,11 @@ export default function Checkout() {
   });
   // Only show items with qty > 0
   const items = cart.filter((item) => item.qty > 0);
+  const { user } = useAuth();
 
+  useEffect(() => {
+    console.log("User in Cart: ", user);
+  }, []);
   const getFruitStock = (fruitId: string) => {
     const fruit = fruits?.find((f) => f.id === fruitId);
     return fruit ? fruit.stock : 0;
