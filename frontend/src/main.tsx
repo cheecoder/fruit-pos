@@ -20,7 +20,7 @@ createRoot(document.getElementById("root")!).render(
     <QueryClientProvider client={queryClient}>
       <CartProvider>
         <BrowserRouter>
-          <Container sx={{ mt: 4 }}>
+          <Container disableGutters>
             <Routes>
               <Route path="/" element={<App />}>
                 <Route index element={<Shop />} />

@@ -17,8 +17,8 @@ export default function App() {
 
   return (
     <>
-      <AppBar position="fixed">
-        <Toolbar sx={{ justifyContent: "space-between" }}>
+      <AppBar position="static" sx={{ width: "100dvw" }}>
+        <Toolbar sx={{ justifyContent: "space-between", px: "1rem" }}>
           <Typography>Cheep Fruits</Typography>
           <Box>
             <IconButton color="inherit" component={RouterLink} to="/">
@@ -32,7 +32,7 @@ export default function App() {
       </AppBar>
       <Toolbar />
 
-      <Box sx={{ flex: 1, height: "100dvh", width: "100dvw" }}>
+      <Box sx={{ flexGrow: 1, height: "100dvh", p: "1rem" }}>
         <Outlet />
       </Box>
       <CheckoutBar />
