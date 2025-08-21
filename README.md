@@ -72,5 +72,14 @@ npm run dev                         # start frontend on http://localhost:5173 (d
 | `/success`  | Confirmation page after successful checkout        |
 | `/manage`   | Owner’s dashboard to view & manage customer orders |
 
+## Technical Improvements
+| Item         | Description                                        |
+| ----------- | -------------------------------------------------- |
+| Seed Data   | Improve seeding with orders, users, additional fruits             |
+| Authentication & Authorization | Add JWT or session-based auth so not everyone can modify stock/orders               |
+| Further Organize Code  |Split routes, controllers, services, and database logic into separate folders.        |
+| Validation Layer  | use `zod` to validate incoming request bodies |
+| Error Handling Middleware | Add a global error handler in Express to handle validation errors, DB errors etc | 
+| Rate limiting | On sensitive endpoints to prevent abuse | 
 
 
