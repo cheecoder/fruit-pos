@@ -5,7 +5,6 @@ import {
   getOrders,
   updateOrderStatus,
   type Order,
-  type OrderPayload,
   type UpdateOrderPayload,
 } from "../api";
 import {
@@ -25,7 +24,11 @@ const Manage = () => {
   const queryClient = useQueryClient();
   const [tab, setTab] = useState(0); // 0 = Pending, 1 = Completed
 
-  const { data: orders = [] } = useQuery<Order[]>({
+  const {
+    data: orders = [],
+    isLoading,
+    error,
+  } = useQuery<Order[]>({
     queryKey: ["orders"],
     queryFn: getOrders,
   });
@@ -48,7 +51,8 @@ const Manage = () => {
   const filteredOrders = orders.filter((o) =>
     tab === 0 ? o.status === "Pending" : o.status === "Completed"
   );
-
+  if (isLoading) return <Typography>Loading orders...</Typography>;
+  if (error) return <Typography>Error loading orders</Typography>;
   return (
     <Box p={3}>
       <Typography variant="h4" mb={3}>
