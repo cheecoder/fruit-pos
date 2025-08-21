@@ -1,4 +1,4 @@
-import { prisma } from "../utils/db";
+import { prisma } from "../utils/db.ts";
 import { Request, Response } from "express";
 
 type OrderItemInput = {

@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
-import fruitsRouter from "./routes/fruits";
-import ordersRouter from "./routes/orders";
+import fruitsRouter from "./routes/fruits.ts";
+import ordersRouter from "./routes/orders.ts";
 
 const app = express();
 

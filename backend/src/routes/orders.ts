@@ -3,7 +3,7 @@ import {
   getOrders,
   submitOrder,
   updateOrderStatus,
-} from "../controllers/ordersController";
+} from "../controllers/ordersController.ts";
 
 const router = Router();
 router.post("/", submitOrder);
