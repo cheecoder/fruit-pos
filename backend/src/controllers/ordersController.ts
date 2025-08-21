@@ -1,5 +1,6 @@
 import { prisma } from "../utils/db.ts";
 import { Request, Response } from "express";
+import { z } from "zod";
 
 type OrderItemInput = {
   fruitId: string;
@@ -11,6 +12,18 @@ type OrderUpdatePayload = {
   id: string;
   status: "Pending" | "Completed";
 };
+
+const submitOrderSchema = z.object({
+  items: z
+    .array(
+      z.object({
+        fruitId: z.string(),
+        qty: z.number().int().min(1),
+        priceCents: z.number().int().min(1),
+      })
+    )
+    .nonempty(),
+});
 
 export const getOrders = async (_req: Request, res: Response) => {
   try {
@@ -34,7 +47,9 @@ export const getOrders = async (_req: Request, res: Response) => {
 
 export const submitOrder = async (req: Request, res: Response) => {
   try {
-    const { items } = req.body;
+    const data = submitOrderSchema.parse(req.body);
+    console.log("Data:", data);
+    const { items } = data;
 
     if (!items || items.length === 0) {
       return res.status(400).json({ message: "No items in order" });
