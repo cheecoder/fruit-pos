@@ -23,6 +23,7 @@ export default function ItemCard({ fruit }: ItemCardProps) {
           itemId={fruit.id}
           name={fruit.name}
           priceCents={fruit.priceCents}
+          maxQty={fruit.stock}
         />
       </CardContent>
     </Card>

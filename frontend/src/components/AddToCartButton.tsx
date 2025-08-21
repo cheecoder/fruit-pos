@@ -7,9 +7,15 @@ type CartButtonProps = {
   itemId: string;
   name: string;
   priceCents: number;
+  maxQty: number;
 };
 
-export function AddToCartButton({ itemId, name, priceCents }: CartButtonProps) {
+export function AddToCartButton({
+  itemId,
+  name,
+  priceCents,
+  maxQty,
+}: CartButtonProps) {
   const { cart, addItem, removeItem } = useCart();
 
   // Find the quantity of this item in cart
@@ -37,12 +43,14 @@ export function AddToCartButton({ itemId, name, priceCents }: CartButtonProps) {
 
       <Typography sx={{ mx: 1 }}>{qty}</Typography>
 
-      <IconButton
-        size="small"
-        onClick={() => addItem({ id: itemId, name, priceCents, qty: 1 })}
-      >
-        <AddIcon />
-      </IconButton>
+      {qty < maxQty && (
+        <IconButton
+          size="small"
+          onClick={() => addItem({ id: itemId, name, priceCents, qty: 1 })}
+        >
+          <AddIcon />
+        </IconButton>
+      )}
     </Box>
   );
 }
