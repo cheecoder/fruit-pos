@@ -1,15 +1,8 @@
-import {
-  Grid,
-  Card,
-  CardContent,
-  Typography,
-  Button,
-  Box,
-} from "@mui/material";
-import axios from "axios";
+import { Grid, Typography, Box } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 
 import ItemCard from "../components/ItemCard";
+import { getFruits } from "../api";
 
 type Fruit = { id: string; name: string; priceCents: number; stock: number };
 
@@ -20,10 +13,7 @@ export default function Shop() {
     error,
   } = useQuery<Fruit[]>({
     queryKey: ["fruits"],
-    queryFn: async () => {
-      const res = await axios.get("http://localhost:3000/api/fruits");
-      return res.data;
-    },
+    queryFn: getFruits,
   });
 
   if (isLoading) return <Typography>Loading fruits...</Typography>;
