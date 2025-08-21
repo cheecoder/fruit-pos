@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 async function main() {
   const fruits = [
-    { name: "Apple", priceCents: 100, stock: 30 },
+    { name: "Apple", priceCents: 100, stock: 4 },
     { name: "Orange", priceCents: 150, stock: 25 },
     { name: "Banana", priceCents: 200, stock: 40 },
   ];
