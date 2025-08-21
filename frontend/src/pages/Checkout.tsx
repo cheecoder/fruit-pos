@@ -2,13 +2,22 @@ import { Box, Typography, Grid, IconButton, Paper } from "@mui/material";
 import { useCart } from "../context/CartContext";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { AddToCartButton } from "../components/AddToCartButton";
+import { getFruits, type Fruit } from "../api";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Checkout() {
   const { cart, removeItem, clearCart, totalPrice } = useCart();
-
+  const { data: fruits } = useQuery<Fruit[]>({
+    queryKey: ["fruits"],
+    queryFn: getFruits,
+  });
   // Only show items with qty > 0
   const items = cart.filter((item) => item.qty > 0);
 
+  const getFruitStock = (fruitId: string) => {
+    const fruit = fruits?.find((f) => f.id === fruitId);
+    return fruit ? fruit.stock : 0;
+  };
   const removeItemCompletely = (id: string) => {
     const item = cart.find((i) => i.id === id);
     if (item) {
@@ -56,6 +65,7 @@ export default function Checkout() {
                   itemId={item.id}
                   name={item.name}
                   priceCents={item.priceCents}
+                  maxQty={getFruitStock(item.id)}
                 />
 
                 {/* Delete icon to remove completely */}
