@@ -85,7 +85,10 @@ app.get(
   passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
     console.log("/auth/google/callback: ", req.headers);
-    res.setHeader("Cache-Control", "no-store");
+    res.setHeader(
+      "Cache-Control",
+      "no-store, no-cache, must-revalidate, private"
+    );
     res.setHeader("Pragma", "no-cache");
     res.setHeader("Expires", "0");
 
