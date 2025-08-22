@@ -9,11 +9,13 @@ import dotenv from "dotenv";
 
 dotenv.config();
 const app = express();
-
+const authCorsOptions = {
+  origin: ["https://your-frontend.onrender.com", "http://localhost:5173"],
+  credentials: true, // allow cookies/session
+};
 app.use(
   cors({
     origin: ["http://localhost:5173", "https://fruit-pos-bfoa.onrender.com"],
-    credentials: true,
   })
 );
 app.use(express.json());
@@ -61,11 +63,13 @@ passport.deserializeUser((user: any, done: (arg0: null, arg1: any) => any) =>
 
 app.get(
   "/auth/google",
+  cors(authCorsOptions),
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
 app.get(
   "/auth/google/callback",
+  cors(authCorsOptions),
   passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
     if (process.env.NODE_ENV === "production") {
@@ -73,11 +77,12 @@ app.get(
     }
     // Successful login → redirect frontend
     res.redirect("http://localhost:5173");
+    return;
   }
 );
 
 // Route to get current user info
-app.get("/api/me", (req, res) => {
+app.get("/api/me", cors(authCorsOptions), (req, res) => {
   console.log(req, res);
   if (req.user) {
     const user = req.user as any;
@@ -85,13 +90,15 @@ app.get("/api/me", (req, res) => {
   } else {
     res.json(null);
   }
+  return;
 });
-app.get("/auth/user", (req, res) => {
+app.get("/auth/user", cors(authCorsOptions), (req, res) => {
   if (req.user) {
     res.json(req.user);
   } else {
     res.status(401).json({ message: "Not authenticated" });
   }
+  return;
 });
 
 app.use("/api/fruits", fruitsRouter);

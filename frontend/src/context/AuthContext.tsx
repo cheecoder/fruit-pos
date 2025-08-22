@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     fetch(`${backendUrl}/auth/user`, {
-      credentials: "include", // 👈 important for cookies/session
+      credentials: "include",
     })
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => setUser(data))
