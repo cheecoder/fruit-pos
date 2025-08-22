@@ -43,6 +43,5 @@
     "moduleDetection": "force",
     "skipLibCheck": true
   },
-  "exclude": ["prisma"],
-  "files": ["src/types.d.ts"]
+  "exclude": ["prisma"]
 }
