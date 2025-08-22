@@ -1,11 +1,13 @@
 import express from "express";
 import cors from "cors";
-import session, { MemoryStore } from "express-session";
+import session from "express-session";
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import fruitsRouter from "./routes/fruits.ts";
 import ordersRouter from "./routes/orders.ts";
 import dotenv from "dotenv";
+
+const MemoryStore = require("memorystore")(session);
 
 dotenv.config();
 const app = express();
@@ -36,7 +38,7 @@ app.use(
       maxAge: 1000 * 60 * 60,
     },
     store: new MemoryStore({
-      checkPeriod: 86400000, // prune expired entries every 24h
+      checkPeriod: 86400000,
     }),
   })
 );
