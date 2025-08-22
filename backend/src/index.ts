@@ -34,7 +34,7 @@ app.use(
     cookie: {
       httpOnly: true,
       secure: true,
-      sameSite: "lax",
+      sameSite: "none",
       maxAge: 1000 * 60 * 60,
     },
     store: new MemoryStore({
@@ -76,7 +76,14 @@ passport.deserializeUser((user: any, done: (arg0: null, arg1: any) => any) =>
 
 app.get(
   "/auth/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
+  passport.authenticate("google", { scope: ["profile", "email"] }),
+  (req, res, next) => {
+    res.set(
+      "Cache-Control",
+      "no-store, no-cache, must-revalidate, proxy-revalidate"
+    );
+    next();
+  }
 );
 
 app.get(
