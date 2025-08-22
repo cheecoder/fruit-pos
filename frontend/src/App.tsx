@@ -17,18 +17,27 @@ import { useAuth } from "./context/AuthContext";
 import { useEffect } from "react";
 export default function App() {
   const { cart, addItem, removeItem, totalItems, totalPrice } = useCart();
-  const { user } = useAuth();
+  const { user, setToken, setUser } = useAuth();
 
   useEffect(() => {
-    console.log("User in App: ", user);
-  }, [user]);
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token");
+    if (token) {
+      setToken(token);
+      const payload = JSON.parse(atob(token.split(".")[1]));
+      console.log(payload);
+      setUser({ name: payload.name, email: payload.email });
+      // remove token from URL after reading it
+      window.history.replaceState({}, document.title, "/");
+    }
+  }, []);
 
   return (
     <>
       <AppBar position="static" sx={{ width: "100dvw" }}>
         <Toolbar sx={{ justifyContent: "space-between", px: "1rem" }}>
           <Typography>Chee-per Fruits</Typography>
-          {user ? user.name.givenName : <LoginButton />}
+          {user ? user.name : <LoginButton />}
           <Box>
             <IconButton color="inherit" component={RouterLink} to="/">
               <HomeIcon />

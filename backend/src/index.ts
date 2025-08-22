@@ -7,13 +7,14 @@ import fruitsRouter from "./routes/fruits.ts";
 import ordersRouter from "./routes/orders.ts";
 import dotenv from "dotenv";
 import createMemoryStore from "memorystore";
+import jwt from "jsonwebtoken";
 
-const MemoryStore = createMemoryStore(session);
+// const MemoryStore = createMemoryStore(session);
 dotenv.config();
 const app = express();
-const isProduction = process.env.NODE_ENV === "production";
 app.use(express.json());
 
+const isProduction = process.env.NODE_ENV === "production";
 app.use(
   cors({
     origin: [
@@ -26,23 +27,22 @@ app.use(
   })
 );
 
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET!,
-    cookie: {
-      httpOnly: true,
-      secure: true,
-      sameSite: isProduction ? "none" : "lax",
-      maxAge: 1000 * 60 * 60,
-    },
-    store: new MemoryStore({
-      checkPeriod: 86400000,
-    }),
-  })
-);
+// app.use(
+//   session({
+//     secret: process.env.SESSION_SECRET!,
+//     cookie: {
+//       httpOnly: true,
+//       secure: true,
+//       sameSite: isProduction ? "none" : "lax",
+//       maxAge: 1000 * 60 * 60,
+//     },
+//     store: new MemoryStore({
+//       checkPeriod: 86400000,
+//     }),
+//   })
+// );
 
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.session());
 
 // Passport Google Strategy
 passport.use(
@@ -54,27 +54,20 @@ passport.use(
         ? "https://fruit-pos-bfoa.onrender.com/auth/google/callback"
         : "http://localhost:3000/auth/google/callback",
     },
-    (
-      accessToken: any,
-      refreshToken: any,
-      profile: any,
-      done: (arg0: null, arg1: any) => void
-    ) => {
+    (accessToken: any, refreshToken: any, profile: any, done) => {
       // just pass the profile
       done(null, profile);
     }
   )
 );
-passport.serializeUser((user: any, done: (arg0: null, arg1: any) => any) =>
-  done(null, user)
-);
-passport.deserializeUser((user: any, done: (arg0: null, arg1: any) => any) =>
-  done(null, user)
-);
+app.use(passport.initialize());
 
 app.get(
   "/auth/google",
-  passport.authenticate("google", { scope: ["profile", "email"] }),
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+    session: false,
+  }),
   (req, res) => {
     console.log("/auth/google: ", req.headers);
   }
@@ -82,34 +75,24 @@ app.get(
 
 app.get(
   "/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "/" }),
+  passport.authenticate("google", { failureRedirect: "/", session: false }),
   (req, res) => {
     console.log("/auth/google/callback: ", req.headers);
-    res.setHeader(
-      "Cache-Control",
-      "no-store, no-cache, must-revalidate, private"
+    const token = jwt.sign(
+      {
+        id: req.user.id,
+        name: req.user.displayName,
+        email: req.user.emails?.[0].value,
+      },
+      process.env.JWT_SECRET!, // add this to Render env
+      { expiresIn: "1h" }
     );
-    res.setHeader("Pragma", "no-cache");
-    res.setHeader("Expires", "0");
+    const redirectUrl = isProduction
+      ? `https://fruit-pos-frontend.onrender.com/?token=${token}`
+      : `http://localhost:5173/?token=${token}`;
+    console.log(redirectUrl);
+    res.redirect(redirectUrl);
 
-    res.send(`
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <meta charset="utf-8">
-          <title>Redirecting...</title>
-        </head>
-        <body>
-          <script>
-            window.location.href = "${
-              isProduction
-                ? "https://fruit-pos-frontend.onrender.com/"
-                : "http://localhost:5173"
-            }";
-          </script>
-        </body>
-      </html>
-    `);
     return;
   }
 );
