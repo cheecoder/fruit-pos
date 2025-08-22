@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(
   cors({
     origin: [
-      "https://fruit-pos-frontend.onrender.com/",
+      "https://fruit-pos-frontend.onrender.com",
       "https://fruit-pos-bfoa.onrender.com",
       "http://localhost:5173",
       "http://localhost:3000",
@@ -85,7 +85,7 @@ app.get(
   (req, res) => {
     res.redirect(
       isProduction
-        ? "https://fruit-pos-frontend.onrender.com"
+        ? "https://fruit-pos-frontend.onrender.com/"
         : "http://localhost:5173"
     );
     return;
