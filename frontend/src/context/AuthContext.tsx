@@ -1,5 +1,4 @@
-import axios from "axios";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 interface User {
   name: string;
@@ -36,33 +35,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     if (newToken) localStorage.setItem("jwt", newToken);
     else localStorage.removeItem("jwt");
   };
-
-  // const backendUrl =
-  //   import.meta.env.MODE === "production"
-  //     ? "https://fruit-pos-bfoa.onrender.com"
-  //     : "http://localhost:3000";
-  // const api = axios.create({
-  //   baseURL: `${backendUrl}`,
-  //   withCredentials: true,
-  // });
-  // async function getCurrentUser() {
-  //   try {
-  //     const response = await api.get("/auth/user", { withCredentials: true });
-  //     console.log("User:", response.data);
-  //     setUser(response.data);
-  //     return response.data;
-  //   } catch (err: any) {
-  //     if (err.response?.status === 401) {
-  //       console.log("Not authenticated");
-  //       setUser(null);
-  //       return null;
-  //     }
-  //     throw err;
-  //   }
-  // }
-  // useEffect(() => {
-  //   getCurrentUser();
-  // }, []);
 
   return (
     <AuthContext.Provider

@@ -7,7 +7,6 @@ export default function LoginButton() {
       : "http://localhost:3000";
 
   const handleLogin = () => {
-    // This will redirect the browser to Google OAuth flow
     window.location.href = `${backendUrl}/auth/google`;
   };
 

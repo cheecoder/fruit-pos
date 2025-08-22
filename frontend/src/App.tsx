@@ -1,13 +1,5 @@
 import { Outlet, Link as RouterLink } from "react-router-dom";
-import {
-  AppBar,
-  Toolbar,
-  Button,
-  IconButton,
-  Box,
-  Typography,
-  Divider,
-} from "@mui/material";
+import { AppBar, Toolbar, IconButton, Box, Typography } from "@mui/material";
 import IconWithBadge from "./components/IconWithBadge";
 import { useCart } from "./context/CartContext";
 import HomeIcon from "@mui/icons-material/Home";
