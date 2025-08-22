@@ -9,11 +9,14 @@ import dotenv from "dotenv";
 
 dotenv.config();
 const app = express();
+const isProduction = process.env.NODE_ENV === "production";
 
 app.use(
   cors({
     origin: [
       "http://localhost:5173",
+      "http://localhost:3000",
+      "https://fruit-pos-bfoa.onrender.com",
       "https://fruit-pos-frontend.onrender.com",
     ],
     credentials: true,
@@ -26,6 +29,11 @@ app.use(
     secret: process.env.SESSION_SECRET!,
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
+    },
   })
 );
 
@@ -38,10 +46,9 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-      callbackURL:
-        process.env.NODE_ENV === "production"
-          ? "https://fruit-pos-bfoa.onrender.com/auth/google/callback"
-          : "http://localhost:3000/auth/google/callback",
+      callbackURL: isProduction
+        ? "https://fruit-pos-bfoa.onrender.com/auth/google/callback"
+        : "http://localhost:3000/auth/google/callback",
     },
     (
       accessToken: any,
@@ -70,7 +77,7 @@ app.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
-    if (process.env.NODE_ENV === "production") {
+    if (isProduction) {
       res.redirect("https://fruit-pos-frontend.onrender.com/");
       return;
     }
@@ -82,7 +89,6 @@ app.get(
 
 // Route to get current user info
 app.get("/api/me", (req, res) => {
-  console.log(req, res);
   if (req.user) {
     const user = req.user as any;
     res.json({ name: user.displayName, email: user.emails?.[0].value });
@@ -92,6 +98,7 @@ app.get("/api/me", (req, res) => {
   return;
 });
 app.get("/auth/user", (req, res) => {
+  console.log("req.user: ", req.user);
   if (req.user) {
     res.json(req.user);
   } else {
