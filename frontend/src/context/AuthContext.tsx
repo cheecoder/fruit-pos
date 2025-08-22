@@ -16,13 +16,6 @@ const AuthContext = createContext<{
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
 
-  useEffect(() => {
-    console.log("user: ", user);
-    // fetch current logged-in user on mount
-    fetch("/api/me", { credentials: "include" })
-      .then((res) => res.json())
-      .then(setUser);
-  }, []);
   const backendUrl =
     import.meta.env.MODE === "production"
       ? "https://fruit-pos-bfoa.onrender.com"
@@ -32,9 +25,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     fetch(`${backendUrl}/auth/user`, {
       credentials: "include",
     })
-      .then((res) => (res.ok ? res.json() : null))
+      .then((res) => {
+        console.log(res);
+        return res.ok ? res.json() : null;
+      })
       .then((data) => setUser(data))
-      .catch(() => setUser(null));
+      .catch((error) => {
+        console.log("error: ", error);
+        setUser(null);
+      });
   }, []);
 
   return (
