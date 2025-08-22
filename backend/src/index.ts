@@ -23,7 +23,7 @@ app.use(
     secret: process.env.SESSION_SECRET!,
     resave: false,
     saveUninitialized: false,
-    // cookie: { secure: false },
+    cookie: { secure: false },
   })
 );
 
@@ -69,7 +69,7 @@ app.get(
   passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
     if (process.env.NODE_ENV === "production") {
-      res.redirect("https://fruit-pos-frontend.onrender.com/");
+      res.redirect("https://fruit-pos-frontend.onrender.com");
     }
     // Successful login → redirect frontend
     res.redirect("http://localhost:5173");
