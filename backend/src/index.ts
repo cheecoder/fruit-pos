@@ -32,9 +32,10 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
+      domain: ".onrender.com",
       httpOnly: true,
       secure: true,
-      sameSite: "strict",
+      sameSite: "none",
       maxAge: 1000 * 60 * 60,
     },
     store: new MemoryStore({
