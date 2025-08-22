@@ -92,11 +92,24 @@ app.get(
     res.setHeader("Pragma", "no-cache");
     res.setHeader("Expires", "0");
 
-    res.redirect(
-      isProduction
-        ? "https://fruit-pos-frontend.onrender.com/"
-        : "http://localhost:5173"
-    );
+    res.send(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <title>Redirecting...</title>
+        </head>
+        <body>
+          <script>
+            window.location.href = "${
+              isProduction
+                ? "https://fruit-pos-frontend.onrender.com/"
+                : "http://localhost:5173"
+            }";
+          </script>
+        </body>
+      </html>
+    `);
     return;
   }
 );
