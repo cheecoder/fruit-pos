@@ -33,7 +33,7 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: isProduction,
+      secure: false,
       sameSite: isProduction ? "none" : "lax",
       maxAge: 1000 * 60 * 60,
     },
@@ -83,8 +83,6 @@ app.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
-    res.status(200).json({ message: "Login successful" });
-    return;
     res.redirect(
       isProduction
         ? "https://fruit-pos-frontend.onrender.com/"
