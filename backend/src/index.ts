@@ -84,7 +84,7 @@ app.get(
   passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
     if (isProduction) {
-      res.redirect("https://fruit-pos-frontend.onrender.com/");
+      res.redirect("https://fruit-pos-frontend.onrender.com");
       return;
     }
     // Successful login → redirect frontend
