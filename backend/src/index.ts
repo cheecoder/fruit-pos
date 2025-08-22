@@ -12,19 +12,19 @@ const MemoryStore = createMemoryStore(session);
 dotenv.config();
 const app = express();
 const isProduction = process.env.NODE_ENV === "production";
+app.use(express.json());
 
 app.use(
   cors({
     origin: [
+      "https://fruit-pos-frontend.onrender.com/",
+      "https://fruit-pos-bfoa.onrender.com",
       "http://localhost:5173",
       "http://localhost:3000",
-      "https://fruit-pos-bfoa.onrender.com",
-      "https://fruit-pos-frontend.onrender.com",
     ],
     credentials: true,
   })
 );
-app.use(express.json());
 
 app.use(
   session({
@@ -83,26 +83,15 @@ app.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
-    if (isProduction) {
-      res.redirect("https://fruit-pos-frontend.onrender.com");
-      return;
-    }
-    // Successful login → redirect frontend
-    res.redirect("http://localhost:5173");
+    res.redirect(
+      isProduction
+        ? "https://fruit-pos-frontend.onrender.com"
+        : "http://localhost:5173"
+    );
     return;
   }
 );
 
-// Route to get current user info
-app.get("/api/me", (req, res) => {
-  if (req.user) {
-    const user = req.user as any;
-    res.json({ name: user.displayName, email: user.emails?.[0].value });
-  } else {
-    res.json(null);
-  }
-  return;
-});
 app.get("/auth/user", (req, res) => {
   console.log("req.user: ", req.user);
   if (req.user) {
