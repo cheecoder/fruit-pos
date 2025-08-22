@@ -12,7 +12,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "https://fruit-pos-bfoa.onrender.com"],
     credentials: true,
   })
 );
@@ -36,7 +36,10 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-      callbackURL: "http://localhost:3000/auth/google/callback",
+      callbackURL:
+        process.env.NODE_ENV === "production"
+          ? "https://fruit-pos-bfoa.onrender.com/auth/google/callback"
+          : "http://localhost:3000/auth/google/callback",
     },
     (
       accessToken: any,
@@ -65,18 +68,29 @@ app.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
+    if (process.env.NODE_ENV === "production") {
+      res.redirect("https://fruit-pos-frontend.onrender.com/");
+    }
     // Successful login → redirect frontend
-    res.redirect("/");
+    res.redirect("http://localhost:5173");
   }
 );
 
 // Route to get current user info
 app.get("/api/me", (req, res) => {
+  console.log(req, res);
   if (req.user) {
     const user = req.user as any;
     res.json({ name: user.displayName, email: user.emails?.[0].value });
   } else {
     res.json(null);
+  }
+});
+app.get("/auth/user", (req, res) => {
+  if (req.user) {
+    res.json(req.user);
+  } else {
+    res.status(401).json({ message: "Not authenticated" });
   }
 });
 

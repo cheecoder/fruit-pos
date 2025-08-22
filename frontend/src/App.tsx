@@ -28,7 +28,7 @@ export default function App() {
       <AppBar position="static" sx={{ width: "100dvw" }}>
         <Toolbar sx={{ justifyContent: "space-between", px: "1rem" }}>
           <Typography>Chee-per Fruits</Typography>
-          {user ? user.name : <LoginButton />}
+          {user ? user.name.givenName : <LoginButton />}
           <Box>
             <IconButton color="inherit" component={RouterLink} to="/">
               <HomeIcon />

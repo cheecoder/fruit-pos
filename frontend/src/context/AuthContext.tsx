@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
 interface User {
-  name: string;
+  name: { givenName: string };
   email: string;
 }
 
@@ -22,6 +22,19 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     fetch("/api/me", { credentials: "include" })
       .then((res) => res.json())
       .then(setUser);
+  }, []);
+  const backendUrl =
+    import.meta.env.MODE === "production"
+      ? "https://fruit-pos-bfoa.onrender.com"
+      : "http://localhost:3000";
+
+  useEffect(() => {
+    fetch(`${backendUrl}/auth/user`, {
+      credentials: "include", // 👈 important for cookies/session
+    })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => setUser(data))
+      .catch(() => setUser(null));
   }, []);
 
   return (
