@@ -34,7 +34,7 @@ app.use(
     cookie: {
       httpOnly: true,
       secure: false,
-      sameSite: isProduction ? "none" : "lax",
+      sameSite: "lax",
       maxAge: 1000 * 60 * 60,
     },
     store: new MemoryStore({
