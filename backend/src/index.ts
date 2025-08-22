@@ -101,8 +101,6 @@ app.get("/auth/user", (req, res) => {
   if (req.user) {
     res.json(req.user);
   } else {
-    console.log("res: ", res);
-    console.log("req: ", req);
     res.status(401).json({ message: "Not authenticated" });
   }
   return;
