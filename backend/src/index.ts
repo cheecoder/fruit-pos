@@ -29,12 +29,10 @@ app.use(
 app.use(
   session({
     secret: process.env.SESSION_SECRET!,
-    resave: false,
-    saveUninitialized: false,
     cookie: {
       httpOnly: true,
       secure: true,
-      sameSite: "lax",
+      sameSite: isProduction ? "none" : "lax",
       maxAge: 1000 * 60 * 60,
     },
     store: new MemoryStore({
