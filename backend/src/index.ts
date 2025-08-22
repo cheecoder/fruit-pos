@@ -83,6 +83,8 @@ app.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
+    res.status(200).json({ message: "Login successful" });
+    return;
     res.redirect(
       isProduction
         ? "https://fruit-pos-frontend.onrender.com/"
