@@ -34,7 +34,7 @@ app.use(
     cookie: {
       httpOnly: true,
       secure: true,
-      sameSite: "none",
+      sameSite: "lax",
       maxAge: 1000 * 60 * 60,
     },
     store: new MemoryStore({
@@ -76,13 +76,18 @@ passport.deserializeUser((user: any, done: (arg0: null, arg1: any) => any) =>
 
 app.get(
   "/auth/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
+  passport.authenticate("google", { scope: ["profile", "email"] }),
+  (req, res) => {
+    console.log("/auth/google: ", req.headers);
+  }
 );
 
 app.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
+    console.log("/auth/google/callback: ", req.headers);
+
     res.redirect(
       isProduction
         ? "https://fruit-pos-frontend.onrender.com/"
