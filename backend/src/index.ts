@@ -32,7 +32,6 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      domain: ".onrender.com",
       httpOnly: true,
       secure: true,
       sameSite: "none",
