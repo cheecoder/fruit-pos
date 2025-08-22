@@ -87,6 +87,8 @@ app.get(
     console.log("/auth/google/callback: ", req.headers);
     res.setHeader("Cache-Control", "no-store");
     res.setHeader("Pragma", "no-cache");
+    res.setHeader("Expires", "0");
+
     res.redirect(
       isProduction
         ? "https://fruit-pos-frontend.onrender.com/"
