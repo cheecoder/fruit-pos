@@ -34,7 +34,7 @@ app.use(
     cookie: {
       httpOnly: true,
       secure: true,
-      sameSite: "none",
+      sameSite: "strict",
       maxAge: 1000 * 60 * 60,
     },
     store: new MemoryStore({
@@ -76,14 +76,7 @@ passport.deserializeUser((user: any, done: (arg0: null, arg1: any) => any) =>
 
 app.get(
   "/auth/google",
-  passport.authenticate("google", { scope: ["profile", "email"] }),
-  (req, res, next) => {
-    res.set(
-      "Cache-Control",
-      "no-store, no-cache, must-revalidate, proxy-revalidate"
-    );
-    next();
-  }
+  passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
 app.get(
@@ -100,10 +93,15 @@ app.get(
 );
 
 app.get("/auth/user", (req, res) => {
+  console.log("ENV1: ", process.env.GOOGLE_CLIENT_ID);
+  console.log("ENV2: ", process.env.GOOGLE_CLIENT_SECRET);
+  console.log("ENV3: ", process.env.SESSION_SECRET);
   console.log("req.user: ", req.user);
   if (req.user) {
     res.json(req.user);
   } else {
+    console.log("res: ", res);
+    console.log("req: ", req);
     res.status(401).json({ message: "Not authenticated" });
   }
   return;
