@@ -85,7 +85,8 @@ app.get(
   passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
     console.log("/auth/google/callback: ", req.headers);
-
+    res.setHeader("Cache-Control", "no-store");
+    res.setHeader("Pragma", "no-cache");
     res.redirect(
       isProduction
         ? "https://fruit-pos-frontend.onrender.com/"
