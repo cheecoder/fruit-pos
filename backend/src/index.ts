@@ -6,9 +6,9 @@ import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import fruitsRouter from "./routes/fruits.ts";
 import ordersRouter from "./routes/orders.ts";
 import dotenv from "dotenv";
+import createMemoryStore from "memorystore";
 
-const MemoryStore = require("memorystore")(session);
-
+const MemoryStore = createMemoryStore(session);
 dotenv.config();
 const app = express();
 const isProduction = process.env.NODE_ENV === "production";
