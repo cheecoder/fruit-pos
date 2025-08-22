@@ -12,7 +12,10 @@ const app = express();
 
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://fruit-pos-bfoa.onrender.com"],
+    origin: [
+      "http://localhost:5173",
+      "https://fruit-pos-frontend.onrender.com",
+    ],
     credentials: true,
   })
 );
