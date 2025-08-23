@@ -7,6 +7,8 @@ import CheckoutBar from "./components/CheckoutBar";
 import LoginButton from "./components/LoginButton";
 import { useAuth } from "./context/AuthContext";
 import { useEffect } from "react";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+
 export default function App() {
   const { cart, addItem, removeItem, totalItems, totalPrice } = useCart();
   const { user, setToken, setUser } = useAuth();
@@ -26,12 +28,18 @@ export default function App() {
     <>
       <AppBar position="static" sx={{ width: "100dvw" }}>
         <Toolbar sx={{ justifyContent: "space-between", px: "1rem" }}>
-          <Typography>Chee-per Fruits</Typography>
-          {user ? user.name : <LoginButton />}
+          <Typography>{user ? `Welcome ${user.name}` : "Welcome"}</Typography>
+
+          {!user && <LoginButton />}
           <Box>
             <IconButton color="inherit" component={RouterLink} to="/">
               <HomeIcon />
             </IconButton>
+            {user && (
+              <IconButton color="inherit" component={RouterLink} to="/manage">
+                <LocalShippingIcon />
+              </IconButton>
+            )}
             <IconButton color="inherit" component={RouterLink} to="/checkout">
               <IconWithBadge count={totalItems} />
             </IconButton>
