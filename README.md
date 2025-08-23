@@ -5,8 +5,9 @@
 This is a full-stack Point of Sale (POS) web application for an online fruits store.  
 It has two user personas: **Customer** and **Store Owner**.
 
-- **Frontend:** React + Vite + MUI + React Query
-- **Backend:** Node.js + TypeScript + Express + Prisma + SQLite
+- **Frontend:** React + Vite + MUI + React Query 
+- **Backend:** Node.js + TypeScript + Express + Prisma + Postgresql
+- **Infra:** Hosted on Render
 
 ---
 
@@ -45,9 +46,7 @@ It has two user personas: **Customer** and **Store Owner**.
 ```bash
 cd backend
 npm install
-npx prisma migrate dev --name init   # create DB
-npx prisma db seed                  # populate initial fruits
-npm run start                       # start backend on http://localhost:3000
+npm run dev                       # start backend on http://localhost:3000
 ```
 
 ### Frontend
@@ -56,18 +55,34 @@ cd frontend
 npm install
 npm run dev                         # start frontend on http://localhost:5173 (default)
 ```
+### Environment
+Obtain environment variables and add them to `.env` file in `/frontend` and `/backend`
+ #### Frontend
+```bash
+  VITE_API_BASE_URL=
+```
+ #### Backend
+```bash
+DATABASE_URL=
+PORT=
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+JWT_SECRET=
+```
 
 ## API Endpoints
-| Method | Endpoint      | Description               |
-| ------ | ------------- | ------------------------- |
-| GET    | /api/fruits   | List all available fruits |
-| GET    | /api/orders   | List all submitted orders |
-| POST   | /api/checkout | Submit a customer order   |
+| Method | Endpoint      | Description                   | Access   |
+| ------ | ------------- | ----------------------------- |--------- |
+| GET    | /api/fruits   | Get all available fruits      | Customer |
+| POST   | /api/orders   | Submit an order               | Customer |
+| GET    | /api/orders   | List all submitted orders     | Owner    |
+| Patch  | /api/orders   | Fulfill all submitted orders  | Owner    |
+
 
 ## Pages
 | URL         | Description                                        |
 | ----------- | -------------------------------------------------- |
-| `/`         | Customer view of all available fruits              |
+| `/shop`     | Customer view of all available fruits              |
 | `/checkout` | Customer checkout page with cart                   |
 | `/success`  | Confirmation page after successful checkout        |
 | `/manage`   | Owner’s dashboard to view & manage customer orders |
@@ -77,7 +92,7 @@ npm run dev                         # start frontend on http://localhost:5173 (d
 | ----------- | -------------------------------------------------- |
 | Seed Data   | Improve seeding with orders, users, additional fruits             |
 | Authentication & Authorization | Add JWT or session-based auth so not everyone can modify stock/orders               |
-| Further Organize Code  |Split routes, controllers, services, and database logic into separate folders.        |
+| Further Organize Code  | Split routes, controllers, services, and database logic into separate folders.        |
 | Validation Layer  | use `zod` to validate incoming request bodies |
 | Error Handling Middleware | Add a global error handler in Express to handle validation errors, DB errors etc | 
 | Rate limiting | On sensitive endpoints to prevent abuse | 
