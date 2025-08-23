@@ -46,7 +46,6 @@ export default function App() {
           </Box>
         </Toolbar>
       </AppBar>
-      <Toolbar />
 
       <Box sx={{ flexGrow: 1, height: "100dvh", p: "1rem" }}>
         <Outlet />

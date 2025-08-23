@@ -13,7 +13,7 @@ export default function IconWithBadge({ count }: IconWithBadgeProps) {
   return (
     <IconButton>
       <ShoppingCartIcon sx={{ color: "white" }} />
-      <CartBadge badgeContent={count} color="primary" overlap="circular" />
+      <CartBadge badgeContent={count} color="secondary" overlap="circular" />
     </IconButton>
   );
 }

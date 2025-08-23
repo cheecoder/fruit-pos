@@ -48,6 +48,7 @@ export default function CheckoutBar() {
         left: 0,
         right: 0,
         p: 2,
+        mt: "1.5rem",
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",

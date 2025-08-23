@@ -5,6 +5,7 @@ import ItemCard from "../components/ItemCard";
 import { getFruits } from "../api";
 import { useAuth } from "../context/AuthContext";
 import AddFruitDialog from "../components/AddFruitDialog";
+import { useCart } from "../context/CartContext";
 
 type Fruit = { id: string; name: string; priceCents: number; stock: number };
 
@@ -19,6 +20,7 @@ export default function Shop() {
   });
 
   const { user } = useAuth();
+  const { cart } = useCart();
 
   if (isLoading) return <Typography>Loading fruits...</Typography>;
   if (error) return <Typography>Error loading fruits</Typography>;
@@ -40,6 +42,7 @@ export default function Shop() {
         flexGrow={1}
         alignContent={"center"}
         alignItems={"center"}
+        sx={{ pb: cart.length > 0 ? "5rem" : 0 }}
       >
         {fruits?.map((fruit) => (
           <Grid size={6} key={fruit.id}>
