@@ -98,7 +98,6 @@ export default function AddFruitDialog({
               }
               label="Amount"
               onChange={(e) => {
-                console.log(e.target.value);
                 const val = e.target.value;
                 if (val === "" || !isNaN(Number(val))) setPrice(val);
               }}

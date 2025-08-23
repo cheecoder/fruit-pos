@@ -1,6 +1,7 @@
 import z from "zod";
 import { prisma } from "../utils/db.ts";
 import { Request, Response } from "express";
+import { logger } from "../utils/logger.ts";
 
 const createFruitSchema = z.object({
   name: z.string().min(1, "Fruit name is required"),
@@ -9,12 +10,18 @@ const createFruitSchema = z.object({
 });
 
 export const getAllFruits = async (req: Request, res: Response) => {
+  logger.debug("Incoming getAllFruits request");
+
   try {
     const fruits = await prisma.fruit.findMany();
-    res.json(fruits);
+
+    logger.info({ count: fruits.length }, "Fetched orders list");
+
+    return res.json(fruits);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Failed to fetch fruits" });
+    logger.error({ err }, "Error retrieving fruits");
+
+    return res.status(500).json({ message: "Failed to fetch fruits" });
   }
 };
 

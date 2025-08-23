@@ -1,6 +1,7 @@
 import { prisma } from "../utils/db.ts";
 import { Request, Response } from "express";
 import { z } from "zod";
+import { logger } from "../utils/logger.ts";
 
 type OrderItemInput = {
   fruitId: string;
@@ -25,7 +26,9 @@ const submitOrderSchema = z.object({
     .nonempty(),
 });
 
-export const getOrders = async (_req: Request, res: Response) => {
+export const getOrders = async (req: Request, res: Response) => {
+  logger.debug("Incoming getOrders request");
+
   try {
     const orders = await prisma.order.findMany({
       include: {
@@ -38,14 +41,19 @@ export const getOrders = async (_req: Request, res: Response) => {
       orderBy: { createdAt: "desc" }, // latest orders first
     });
 
-    res.json(orders);
+    logger.info({ count: orders.length }, "Fetched orders list");
+
+    return res.json(orders);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Failed to fetch orders" });
+    logger.error({ err }, "Error retrieving orders");
+
+    return res.status(500).json({ message: "Failed to fetch orders" });
   }
 };
 
 export const submitOrder = async (req: Request, res: Response) => {
+  logger.debug("Incoming submitOrder request");
+
   try {
     const data = submitOrderSchema.parse(req.body);
     const { items } = data;
@@ -72,14 +80,19 @@ export const submitOrder = async (req: Request, res: Response) => {
       include: { items: true },
     });
 
-    res.status(201).json(order);
+    logger.info({ items }, "Submit order");
+
+    return res.status(201).json(order);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Failed to submit order" });
+    logger.error({ err });
+
+    return res.status(500).json({ message: "Failed to submit order" });
   }
 };
 
 export const updateOrderStatus = async (req: Request, res: Response) => {
+  logger.debug("Incoming updateOrderStatus request");
+
   try {
     const { id, status } = req.body as OrderUpdatePayload;
 
@@ -102,10 +115,11 @@ export const updateOrderStatus = async (req: Request, res: Response) => {
       }
       return updatedOrder;
     });
+    logger.info({ result }, "Update order status");
 
-    res.json(result);
+    return res.json(result);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Failed to update order status" });
+    logger.error({ err });
+    return res.status(500).json({ message: "Failed to update order status" });
   }
 };
