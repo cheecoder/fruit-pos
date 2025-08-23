@@ -17,9 +17,7 @@ export default function App() {
     if (token) {
       setToken(token);
       const payload = JSON.parse(atob(token.split(".")[1]));
-      console.log(payload);
       setUser({ name: payload.name, email: payload.email });
-      // remove token from URL after reading it
       window.history.replaceState({}, document.title, "/");
     }
   }, []);

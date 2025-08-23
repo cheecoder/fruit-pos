@@ -46,17 +46,13 @@ app.get(
   passport.authenticate("google", {
     scope: ["profile", "email"],
     session: false,
-  }),
-  (req, res) => {
-    console.log("/auth/google: ", req.headers);
-  }
+  })
 );
 
 app.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/", session: false }),
   (req, res) => {
-    console.log("/auth/google/callback: ", req.headers);
     const token = jwt.sign(
       {
         id: req.user.id,

@@ -48,7 +48,6 @@ export const getOrders = async (_req: Request, res: Response) => {
 export const submitOrder = async (req: Request, res: Response) => {
   try {
     const data = submitOrderSchema.parse(req.body);
-    console.log("Data:", data);
     const { items } = data;
 
     if (!items || items.length === 0) {

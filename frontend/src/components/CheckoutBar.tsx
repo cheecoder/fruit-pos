@@ -24,7 +24,6 @@ export default function CheckoutBar() {
     if (isCheckoutPage) {
       handlePayAndConfirm();
     } else {
-      // Go to checkout page
       navigate("/checkout");
     }
   };
