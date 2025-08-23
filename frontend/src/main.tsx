@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import { Routes, Route, HashRouter } from "react-router-dom";
+import { Routes, Route, HashRouter, Navigate } from "react-router-dom";
 import { CssBaseline, Container } from "@mui/material";
 import App from "./App";
 import Shop from "./pages/Shop";
@@ -25,10 +25,12 @@ createRoot(document.getElementById("root")!).render(
             <Container disableGutters>
               <Routes>
                 <Route path="/" element={<App />}>
-                  <Route index element={<Shop />} />
+                  <Route index element={<Navigate to="/shop" replace />} />
+                  <Route path="/shop" element={<Shop />} />
                   <Route path="/checkout" element={<Checkout />} />
                   <Route path="/success" element={<Success />} />
-                  <Route path="/manage" element={<Manage />} />
+                  <Route path="/manage" element={<Manage />} />{" "}
+                  <Route path="*" element={<Navigate to="/shop" replace />} />
                 </Route>
               </Routes>
             </Container>
