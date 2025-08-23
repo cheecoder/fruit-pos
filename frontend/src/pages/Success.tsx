@@ -15,7 +15,10 @@ export const Success = () => {
         <Typography>Order tracking number: </Typography>
         <Typography>${order.id}</Typography>
       </Stack>
-      <Typography variant="body1">Thank you for your purchase.</Typography>
+      <Typography variant="body1">
+        Thank you for your purchase. Please wait for your order to be fulfilled
+        by an Owner.
+      </Typography>
       <Button variant="contained" onClick={() => navigate("/shop")}>
         Back to Shop
       </Button>
