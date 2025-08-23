@@ -4,10 +4,11 @@ import {
   submitOrder,
   updateOrderStatus,
 } from "../controllers/ordersController.ts";
+import { authenticateToken } from "../middleware/authMiddleware.ts";
 
 const router = Router();
 router.post("/", submitOrder);
-router.get("/", getOrders);
-router.patch("/status", updateOrderStatus);
+router.get("/", authenticateToken, getOrders);
+router.patch("/status", authenticateToken, updateOrderStatus);
 
 export default router;
