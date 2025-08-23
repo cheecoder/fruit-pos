@@ -1,4 +1,3 @@
-import axios from "axios";
 import api from "./axios";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
@@ -37,6 +36,12 @@ export type UpdateOrderPayload = {
   status: "Pending" | "Completed";
 };
 
+export type CreateFruitPayload = {
+  name: string;
+  stock: number;
+  price: number;
+};
+
 // =======================
 // API Calls
 // =======================
@@ -62,5 +67,10 @@ export const getOrders = async (): Promise<Order[]> => {
 // Update order status (for store owner)
 export const updateOrderStatus = async (payload: UpdateOrderPayload) => {
   const { data } = await api.patch(`${API_BASE}/orders/status`, payload);
+  return data;
+};
+
+export const createFruit = async (payload: CreateFruitPayload) => {
+  const { data } = await api.post(`${API_BASE}/fruits`, payload);
   return data;
 };
