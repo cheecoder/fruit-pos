@@ -8,9 +8,10 @@ import {
   Button,
   IconButton,
   InputLabel,
-  OutlinedInput,
   InputAdornment,
   FormControl,
+  Stack,
+  FilledInput,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/AddCircleOutline";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -68,41 +69,44 @@ export default function AddFruitDialog({
       >
         <DialogTitle>Add New Fruit</DialogTitle>
         <DialogContent>
-          <TextField
-            label="Fruit Name"
-            value={fruitName}
-            onChange={(e) => setFruitName(e.target.value)}
-            margin="normal"
-            fullWidth
-            required
-          />
-          <TextField
-            label="Initial Stock"
-            value={stock}
-            onChange={(e) => {
-              const val = e.target.value;
-              if (/^\d*$/.test(val)) {
-                setStock(val);
-              }
-            }}
-            margin="normal"
-            fullWidth
-            required
-          />
-          <FormControl fullWidth>
-            <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-amount"
-              startAdornment={
-                <InputAdornment position="start">$</InputAdornment>
-              }
-              label="Amount"
+          <Stack gap={"0.25rem"}>
+            <TextField
+              variant="filled"
+              label="Fruit Name"
+              value={fruitName}
+              onChange={(e) => setFruitName(e.target.value)}
+              margin="normal"
+              fullWidth
+              required
+            />
+            <TextField
+              variant="filled"
+              label="Initial Stock"
+              value={stock}
               onChange={(e) => {
                 const val = e.target.value;
-                if (val === "" || !isNaN(Number(val))) setPrice(val);
+                if (/^\d*$/.test(val)) {
+                  setStock(val);
+                }
               }}
+              margin="normal"
+              fullWidth
+              required
             />
-          </FormControl>
+            <FormControl fullWidth variant="filled">
+              <InputLabel htmlFor="filled-adornment-amount">Amount</InputLabel>
+              <FilledInput
+                id="filled-adornment-amount"
+                startAdornment={
+                  <InputAdornment position="start">$</InputAdornment>
+                }
+                onChange={(e) => {
+                  const val = e.target.value;
+                  if (val === "" || !isNaN(Number(val))) setPrice(val);
+                }}
+              />
+            </FormControl>
+          </Stack>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)}>Cancel</Button>

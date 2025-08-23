@@ -26,6 +26,7 @@ export function AddToCartButton({
     // Show "Add to Cart"
     return (
       <Button
+        size="small"
         variant="contained"
         onClick={() => addItem({ id: itemId, name, priceCents, qty: 1 })}
       >

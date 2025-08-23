@@ -42,7 +42,7 @@ export default function Shop() {
         alignItems={"center"}
       >
         {fruits?.map((fruit) => (
-          <Grid item xs={12} sm={6} key={fruit.id}>
+          <Grid size={6} key={fruit.id}>
             <ItemCard fruit={fruit} />
           </Grid>
         ))}

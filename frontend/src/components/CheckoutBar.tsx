@@ -12,9 +12,9 @@ export default function CheckoutBar() {
 
   const mutation = useMutation({
     mutationFn: (payload: OrderPayload) => submitOrder(payload),
-    onSuccess: () => {
+    onSuccess: (data) => {
       clearCart();
-      navigate("/success");
+      navigate("/success", { state: { order: data } });
     },
   });
 

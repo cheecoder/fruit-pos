@@ -70,7 +70,7 @@ const Manage = () => {
         )}
 
         {filteredOrders.map((order) => (
-          <Card key={order.id} sx={{ mb: 2 }}>
+          <Card key={order.id} sx={{ flexGrow: 1, mb: 2 }}>
             <CardContent>
               <Typography variant="h6">Order ID: {order.id}</Typography>
               <Typography>

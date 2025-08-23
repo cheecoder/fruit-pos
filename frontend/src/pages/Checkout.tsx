@@ -4,7 +4,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { AddToCartButton } from "../components/AddToCartButton";
 import { getFruits, type Fruit } from "../api";
 import { useQuery } from "@tanstack/react-query";
-import { useAuth } from "../context/AuthContext";
 
 export default function Checkout() {
   const { cart, removeItem, clearCart, totalPrice } = useCart();
@@ -14,7 +13,6 @@ export default function Checkout() {
   });
   // Only show items with qty > 0
   const items = cart.filter((item) => item.qty > 0);
-  const { user } = useAuth();
 
   const getFruitStock = (fruitId: string) => {
     const fruit = fruits?.find((f) => f.id === fruitId);
@@ -44,7 +42,7 @@ export default function Checkout() {
 
       <Grid container spacing={2}>
         {items.map((item) => (
-          <Grid item xs={12} key={item.id}>
+          <Grid size={12} key={item.id}>
             <Paper
               sx={{
                 display: "flex",
