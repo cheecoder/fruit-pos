@@ -1,6 +1,7 @@
 import z from "zod";
 import { prisma } from "../utils/db.ts";
 import { Request, Response } from "express";
+import { capitalizeFirstLetterOfName } from "../utils/helper.ts";
 import { logger } from "../utils/logger.ts";
 
 const createFruitSchema = z.object({
@@ -25,30 +26,49 @@ export const getAllFruits = async (req: Request, res: Response) => {
   }
 };
 
-export const createFruit = async (req: Request, res: Response) => {
-  console.log("Creating Fruit...");
+export const createOrModifyFruitByName = async (
+  req: Request,
+  res: Response
+) => {
+  logger.debug("Incoming createOrModifyFruitByName request");
   try {
     const { name, stock, price } = createFruitSchema.parse(req.body);
-    const priceCents = Math.round(price * 100);
-    console.log(
-      `Creating fruit with name: ${name}, stock: ${stock}, price in cents: ${priceCents}`
-    );
 
-    const fruit = await prisma.fruit.create({
-      data: { name, stock, priceCents },
+    const priceCents = Math.round(price * 100);
+    const normalizedName = capitalizeFirstLetterOfName(name);
+
+    const fruit = await prisma.fruit.upsert({
+      where: { name: normalizedName },
+      update: {
+        stock,
+        priceCents,
+      },
+      create: {
+        name: normalizedName,
+        stock,
+        priceCents,
+      },
     });
-    res.status(201).json(fruit);
+    logger.info({ fruit }, "Fruit created or modified");
+
+    return res.status(200).json(fruit);
   } catch (err: any) {
     if (err.code === "P2002") {
       // Unique constraint failed
+      logger.error({ err }, "Fruit with this name already exists");
+
       return res
         .status(400)
         .json({ error: "Fruit with this name already exists" });
     }
     if (err instanceof z.ZodError) {
-      return res.status(400).json({ error: z.prettifyError(err) });
+      logger.error({ error: z.prettifyError(err) }, "ZodError");
+
+      return res
+        .status(400)
+        .json({ error: "Something went wrong with the schema" });
     }
-    console.error("Error creating fruit:", err);
-    res.status(500).json({ error: "Internal server error" });
+    logger.error({ err });
+    return res.status(500).json({ error: "Internal server error" });
   }
 };
