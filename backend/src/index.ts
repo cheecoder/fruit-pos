@@ -6,6 +6,8 @@ import fruitsRouter from "./routes/fruits.ts";
 import ordersRouter from "./routes/orders.ts";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
+import { logger } from "./utils/logger.ts";
+import { prisma } from "./utils/db.ts";
 
 dotenv.config();
 const app = express();
@@ -34,8 +36,21 @@ passport.use(
         ? "https://fruit-pos-bfoa.onrender.com/auth/google/callback"
         : "http://localhost:3000/auth/google/callback",
     },
-    (accessToken: any, refreshToken: any, profile: any, done) => {
-      done(null, profile);
+    async (accessToken: any, refreshToken: any, profile: any, done) => {
+      try {
+        const email = profile.emails?.[0].value!;
+        const name = profile.displayName;
+        const user = await prisma.user.upsert({
+          where: { email },
+          update: {},
+          create: { email, name },
+        });
+        logger.info({ user }, "Login from user detected");
+
+        return done(null, profile);
+      } catch (err) {
+        return done(err, null);
+      }
     }
   )
 );
@@ -65,20 +80,9 @@ app.get(
     const redirectUrl = isProduction
       ? `https://fruit-pos-frontend.onrender.com/?token=${token}`
       : `http://localhost:5173/?token=${token}`;
-    res.redirect(redirectUrl);
-
-    return;
+    return res.redirect(redirectUrl);
   }
 );
-
-app.get("/auth/user", (req, res) => {
-  if (req.user) {
-    res.json(req.user);
-  } else {
-    res.status(401).json({ message: "Not authenticated" });
-  }
-  return;
-});
 
 app.use("/api/fruits", fruitsRouter);
 app.use("/api/orders", ordersRouter);

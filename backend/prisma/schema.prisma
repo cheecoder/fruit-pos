@@ -23,6 +23,8 @@ model Order {
   totalCents Int
   status     String      @default("Pending") // "Pending", "Completed"
   items      OrderItem[]
+  userId     String?
+  user       User?        @relation(fields: [userId], references: [id])
 }
 
 model OrderItem {
@@ -33,4 +35,12 @@ model OrderItem {
   unitPriceCents Int
   order         Order @relation(fields: [orderId], references: [id])
   fruit         Fruit @relation(fields: [fruitId], references: [id])
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  createdAt DateTime @default(now())
+  orders    Order[]
 }

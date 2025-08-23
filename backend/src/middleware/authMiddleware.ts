@@ -6,11 +6,11 @@ export type AuthRequest = Request & {
   user?: string | JwtPayload;
 };
 
-export function authenticateToken(
+export const authenticateToken = (
   req: AuthRequest,
   res: Response,
   next: NextFunction
-) {
+) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
 
@@ -27,4 +27,4 @@ export function authenticateToken(
     logger.error({ err }, "Error authenticating token");
     return res.status(403).json({ message: "Invalid or expired token" });
   }
-}
+};
