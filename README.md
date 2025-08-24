@@ -10,6 +10,7 @@ To access **Owner** role, authenticate via Google.
 - **Frontend:** React + Vite + MUI + React Query
 - **Backend:** Node.js + TypeScript + Express + Prisma + Postgresql
 - **Infra:** Hosted on Render
+- **Other tools:** Notion for task tracking and additional details
 
 ---
 
