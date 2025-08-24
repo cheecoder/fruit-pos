@@ -47,7 +47,7 @@ passport.use(
         });
         logger.info({ user }, "Login from user detected");
 
-        return done(null, profile);
+        return done(null, user);
       } catch (err) {
         logger.error({ err }, "Error in Google Strategy");
         return done(err);
@@ -72,8 +72,8 @@ app.get(
     const token = jwt.sign(
       {
         id: req.user.id,
-        name: req.user.displayName,
-        email: req.user.emails?.[0].value,
+        name: req.user.name,
+        email: req.user.email,
       },
       process.env.JWT_SECRET!,
       { expiresIn: "1h" }
