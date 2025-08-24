@@ -57,7 +57,18 @@ npm run dev                       # start backend on http://localhost:3000
 ```bash
 cd frontend
 npm install
-npm run dev                         # start frontend on http://localhost:5173 (default)
+npm run dev                        # start frontend on http://localhost:5173 (default)
+```
+
+### Database
+
+```bash
+cd backend
+npx
+# Modify your prisma schema
+npx prisma migrate dev --name <NAME_OF_MIGRATION>
+npx prisma studio                  # To view database
+npm run seed                       # To seed database, optionally modify seed.ts to include more data
 ```
 
 ### Environment
@@ -67,7 +78,7 @@ Obtain environment variables and add them to `.env` file in `/frontend` and `/ba
 #### Frontend
 
 ```bash
-  VITE_API_BASE_URL=
+VITE_API_BASE_URL=
 ```
 
 #### Backend
@@ -86,10 +97,10 @@ JWT_SECRET=
 | ------ | -------------- | ---------------------------------------------------------------------- | -------- |
 | GET    | /api/fruits    | Get all available fruits                                               | Customer |
 | POST   | /api/fruits    | Create a fruit or Update a fruit with the same given name in inventory | Owner    |
-| POST   | /api/orders    | Submit an order                                                        | Customer |
-| GET    | /api/orders/me | Retrieve orders placed by an authenticated user                        | Customer |
 | GET    | /api/orders    | List all submitted orders                                              | Owner    |
-| Patch  | /api/orders    | Fulfill all submitted orders                                           | Owner    |
+| POST   | /api/orders    | Submit an order                                                        | Customer |
+| Patch  | /api/orders    | Fulfill submitted order                                                | Owner    |
+| GET    | /api/orders/me | Retrieve orders placed by an authenticated user                        | Customer |
 
 ## Pages
 
