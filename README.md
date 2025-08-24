@@ -5,6 +5,8 @@
 This is a full-stack Point of Sale (POS) web application for an online fruits store.  
 It has two user personas: **Customer** and **Store Owner**.
 
+To access **Owner** role, authenticate via Google.
+
 - **Frontend:** React + Vite + MUI + React Query
 - **Backend:** Node.js + TypeScript + Express + Prisma + Postgresql
 - **Infra:** Hosted on Render
@@ -21,7 +23,7 @@ It has two user personas: **Customer** and **Store Owner**.
 | 4   | As an **owner**, I want to see submitted customer orders so that I can fulfill them.                                                                   | ✅ Completed | 🔴 High   |
 | 5   | As an **owner**, I want to see the total sales for each day and for each fruit, so that I can track the performance of my store.                       | ⬜ Pending   | 🟡 Low    |
 | 6   | As an **owner**, I want to be able to add new fruits and amend my stock levels, so that I can keep my online store up to date.                         | ✅ Completed | 🟠 Medium |
-| 7   | As a **customer**, I want to be able to log in and see my order history, so that I can track my previous purchases.                                    | ⬜ Pending   | 🟠 Medium |
+| 7   | As a **customer**, I want to be able to log in and see my order history, so that I can track my previous purchases.                                    | ✅ Completed | 🟠 Medium |
 | 8   | As a **customer**, I want to be able to re-order a previous order, so that I can quickly purchase the same items again.                                | ⬜ Pending   | 🟡 Low    |
 | 9   | As a **customer**, I want to know how many people are currently considering buying a fruit, so that I can make a quick decision before stock runs out. | ⬜ Pending   | 🟡 Low    |
 | 10  | As a **customer**, I want to be able to ask the store owner common questions about a fruit, so that I can make an informed decision.                   | ⬜ Pending   | 🟡 Low    |
@@ -79,13 +81,14 @@ JWT_SECRET=
 
 ## API Endpoints
 
-| Method | Endpoint    | Description                                                            | Access   |
-| ------ | ----------- | ---------------------------------------------------------------------- | -------- |
-| GET    | /api/fruits | Get all available fruits                                               | Customer |
-| POST   | /api/fruits | Create a fruit or Update a fruit with the same given name in inventory | Owner    |
-| POST   | /api/orders | Submit an order                                                        | Customer |
-| GET    | /api/orders | List all submitted orders                                              | Owner    |
-| Patch  | /api/orders | Fulfill all submitted orders                                           | Owner    |
+| Method | Endpoint       | Description                                                            | Access   |
+| ------ | -------------- | ---------------------------------------------------------------------- | -------- |
+| GET    | /api/fruits    | Get all available fruits                                               | Customer |
+| POST   | /api/fruits    | Create a fruit or Update a fruit with the same given name in inventory | Owner    |
+| POST   | /api/orders    | Submit an order                                                        | Customer |
+| GET    | /api/orders/me | Retrieve orders placed by an authenticated user                        | Customer |
+| GET    | /api/orders    | List all submitted orders                                              | Owner    |
+| Patch  | /api/orders    | Fulfill all submitted orders                                           | Owner    |
 
 ## Pages
 
@@ -95,14 +98,3 @@ JWT_SECRET=
 | `/checkout` | Customer checkout page with cart                   |
 | `/success`  | Confirmation page after successful checkout        |
 | `/manage`   | Owner’s dashboard to view & manage customer orders |
-
-## Technical Improvements
-
-| Item                           | Description                                                                      |
-| ------------------------------ | -------------------------------------------------------------------------------- |
-| Seed Data                      | Improve seeding with orders, users, additional fruits                            |
-| Authentication & Authorization | Add JWT or session-based auth so not everyone can modify stock/orders            |
-| Further Organize Code          | Split routes, controllers, services, and database logic into separate folders.   |
-| Validation Layer               | use `zod` to validate incoming request bodies                                    |
-| Error Handling Middleware      | Add a global error handler in Express to handle validation errors, DB errors etc |
-| Rate limiting                  | On sensitive endpoints to prevent abuse                                          |
