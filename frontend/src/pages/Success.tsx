@@ -1,8 +1,8 @@
-import { Box, Typography, Button, Stack } from "@mui/material";
+import { Typography, Button, Stack } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import type { Order } from "../api";
 
-export const Success = () => {
+const Success = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const order: Order = location.state?.order;
@@ -25,3 +25,5 @@ export const Success = () => {
     </Stack>
   );
 };
+
+export default Success;

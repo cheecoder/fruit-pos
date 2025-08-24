@@ -17,7 +17,7 @@ import { useEffect } from "react";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import LogoutIcon from "@mui/icons-material/Logout";
 export default function App() {
-  const { cart, addItem, removeItem, totalItems, totalPrice } = useCart();
+  const { totalItems } = useCart();
   const { user, setToken, setUser } = useAuth();
   const navigate = useNavigate();
 

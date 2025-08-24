@@ -69,13 +69,16 @@ app.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/", session: false }),
   (req, res) => {
+    if (!process?.env?.JWT_SECRET) {
+      return;
+    }
     const token = jwt.sign(
       {
         id: req.user.id,
         name: req.user.name,
         email: req.user.email,
       },
-      process.env.JWT_SECRET!,
+      process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
     const redirectUrl = isProduction

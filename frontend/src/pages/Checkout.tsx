@@ -5,8 +5,8 @@ import { AddToCartButton } from "../components/AddToCartButton";
 import { getFruits, type Fruit } from "../api";
 import { useQuery } from "@tanstack/react-query";
 
-export default function Checkout() {
-  const { cart, removeItem, clearCart, totalPrice } = useCart();
+const Checkout = () => {
+  const { cart, removeItem } = useCart();
   const { data: fruits } = useQuery<Fruit[]>({
     queryKey: ["fruits"],
     queryFn: getFruits,
@@ -83,4 +83,6 @@ export default function Checkout() {
       </Grid>
     </Box>
   );
-}
+};
+
+export default Checkout;

@@ -13,11 +13,7 @@ import { getUserOrders, type UserOrder, type UserOrderItem } from "../api";
 import { useQuery } from "@tanstack/react-query";
 
 export const UserOrderHistory = () => {
-  const {
-    data: userOrders,
-    isUserOrdersLoading,
-    isUserOrdersError,
-  } = useQuery<UserOrder[]>({
+  const { data: userOrders } = useQuery<UserOrder[]>({
     queryKey: ["orders"],
     queryFn: getUserOrders,
   });

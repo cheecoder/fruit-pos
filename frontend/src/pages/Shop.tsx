@@ -1,24 +1,8 @@
-import {
-  Grid,
-  Typography,
-  Box,
-  Card,
-  CardContent,
-  Chip,
-  List,
-  ListItem,
-  Stack,
-} from "@mui/material";
+import { Grid, Typography, Box, Stack } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 
 import ItemCard from "../components/ItemCard";
-import {
-  getFruits,
-  getUserOrders,
-  type Order,
-  type UserOrder,
-  type UserOrderItem,
-} from "../api";
+import { getFruits } from "../api";
 import { useAuth } from "../context/AuthContext";
 import AddFruitDialog from "../components/AddFruitDialog";
 import { useCart } from "../context/CartContext";
@@ -26,7 +10,7 @@ import { UserOrderHistory } from "../components/UserOrderHistory";
 
 type Fruit = { id: string; name: string; priceCents: number; stock: number };
 
-export default function Shop() {
+const Shop = () => {
   const {
     data: fruits,
     isLoading,
@@ -67,4 +51,6 @@ export default function Shop() {
       {user && <UserOrderHistory />}
     </Stack>
   );
-}
+};
+
+export default Shop;
