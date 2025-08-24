@@ -22,7 +22,34 @@ export const authenticateToken = (
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
     req.user = decoded;
-    next();
+    return next();
+  } catch (err) {
+    logger.error({ err }, "Error authenticating token");
+    return res.status(403).json({ message: "Invalid or expired token" });
+  }
+};
+
+export const optionalAuthenticateToken = (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (!authHeader) {
+    logger.info({ token: token }, "No headers detected. Continuing as guest");
+    return next();
+  }
+  if (!token) {
+    logger.info({ token: token }, "Bad token detected. Treating as guest");
+    return next();
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
+    req.user = decoded;
+    return next();
   } catch (err) {
     logger.error({ err }, "Error authenticating token");
     return res.status(403).json({ message: "Invalid or expired token" });

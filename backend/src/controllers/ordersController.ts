@@ -65,10 +65,13 @@ export const submitOrder = async (req: Request, res: Response) => {
       (acc: number, i: OrderItemInput) => acc + i.qty * i.priceCents,
       0
     );
+    const userId = (req as any).user?.id ?? null;
+    logger.info(userId);
 
     const order = await prisma.order.create({
       data: {
         totalCents,
+        userId,
         items: {
           create: items.map((i: OrderItemInput) => ({
             fruitId: i.fruitId,
@@ -77,10 +80,10 @@ export const submitOrder = async (req: Request, res: Response) => {
           })),
         },
       },
-      include: { items: true },
+      include: { items: true, user: true },
     });
 
-    logger.info({ items }, "Submit order");
+    logger.info({ orderId: order.id, userId }, "Order submitted");
 
     return res.status(201).json(order);
   } catch (err) {

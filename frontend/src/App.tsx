@@ -20,6 +20,7 @@ export default function App() {
   const { cart, addItem, removeItem, totalItems, totalPrice } = useCart();
   const { user, setToken, setUser } = useAuth();
   const navigate = useNavigate();
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const token = params.get("token");
