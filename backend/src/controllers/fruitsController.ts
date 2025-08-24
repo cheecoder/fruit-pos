@@ -14,7 +14,8 @@ export const getAllFruits = async (req: Request, res: Response) => {
   logger.debug("Incoming getAllFruits request");
 
   try {
-    const fruits = await prisma.fruit.findMany();
+    // Fruits with highest stock count should be listed first
+    const fruits = await prisma.fruit.findMany({ orderBy: { stock: "desc" } });
 
     logger.info({ count: fruits.length }, "Fetched orders list");
 
