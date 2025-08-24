@@ -28,9 +28,10 @@ export function AddToCartButton({
       <Button
         size="small"
         variant="contained"
+        disabled={maxQty <= 0}
         onClick={() => addItem({ id: itemId, name, priceCents, qty: 1 })}
       >
-        Add to Cart
+        {maxQty <= 0 ? "Out of Stock" : "Add to Cart"}
       </Button>
     );
   }
