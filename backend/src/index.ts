@@ -49,7 +49,8 @@ passport.use(
 
         return done(null, profile);
       } catch (err) {
-        return done(err, null);
+        logger.error({ err }, "Error in Google Strategy");
+        return done(err);
       }
     }
   )
