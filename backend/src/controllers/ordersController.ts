@@ -51,6 +51,31 @@ export const getOrders = async (req: Request, res: Response) => {
   }
 };
 
+export const getUserOrders = async (req: Request, res: Response) => {
+  const userId = req.user?.id;
+  if (!userId) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  logger.debug({ userId: userId }, "Incoming getUserOrders request");
+
+  try {
+    const orders = await prisma.order.findMany({
+      where: { userId },
+      include: {
+        items: { include: { fruit: true } },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+
+    logger.info({ count: orders.length, userId }, "Fetched user order history");
+    return res.json(orders);
+  } catch (err) {
+    logger.error({ err }, "Error retrieving user orders");
+    return res.status(500).json({ message: "Failed to fetch user orders" });
+  }
+};
+
 export const submitOrder = async (req: Request, res: Response) => {
   logger.debug("Incoming submitOrder request");
 

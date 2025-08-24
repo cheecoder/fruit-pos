@@ -19,6 +19,24 @@ export type OrderItem = {
   priceCents: number;
 };
 
+export type UserOrderItem = {
+  id: string;
+  orderId: string;
+  fruitId: string;
+  qty: number;
+  unitPriceCents: number;
+  fruit: Fruit;
+};
+
+export type UserOrder = {
+  id: string;
+  createdAt: string;
+  totalCents: number;
+  status: "Pending" | "Completed";
+  userId: string;
+  items: UserOrderItem[];
+};
+
 export type OrderPayload = {
   items: OrderItem[];
 };
@@ -61,6 +79,11 @@ export const submitOrder = async (payload: OrderPayload): Promise<Order> => {
 // Get all orders (for store owner)
 export const getOrders = async (): Promise<Order[]> => {
   const response = await api.get(`${API_BASE}/orders`);
+  return response.data;
+};
+
+export const getUserOrders = async (): Promise<UserOrder[]> => {
+  const response = await api.get(`${API_BASE}/orders/me`);
   return response.data;
 };
 
