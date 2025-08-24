@@ -17,7 +17,7 @@ export const UserOrderHistory = () => {
     queryKey: ["orders"],
     queryFn: getUserOrders,
   });
-  if (!userOrders) return;
+  if (!userOrders || userOrders.length === 0) return;
   return (
     <Stack>
       <Typography variant="h6">Your Orders</Typography>

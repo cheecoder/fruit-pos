@@ -6,6 +6,7 @@ This is a full-stack Point of Sale (POS) web application for an online fruits st
 It has two user personas: **Customer** and **Store Owner**.
 
 To access **Owner** role, authenticate via Google.
+Authenticated users are treated as **Authenticated Customers** and **Owners**
 
 - **Frontend:** React + Vite + MUI + React Query
 - **Backend:** Node.js + TypeScript + Express + Prisma + Postgresql
